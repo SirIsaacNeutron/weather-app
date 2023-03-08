@@ -5,9 +5,16 @@
         <meta name="viewport" content="width=device-width, initial-scale=1" />
 
         <title><%= htmlWebpackPlugin.options.title %></title>
-        <link rel="stylesheet" href="styles.css">
     </head>
     <body>
         <h1>Weather</h1>
+        <main>
+            <form method="POST" class="weather-form">
+                <div>
+                    <input type="text" id="city" required placeholder="Type a city name here">
+                    <p class="error-msg"></p>
+                </div>
+            </form>
+        </main>
     </body>
 </html>
