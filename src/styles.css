@@ -40,6 +40,7 @@ body {
 
 .error-msg {
     display: none;
+    color: hsl(0, 100%, 42%);
 }
 
 .error-msg.active {

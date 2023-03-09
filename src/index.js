@@ -15,27 +15,35 @@ weatherInput.addEventListener("keydown", e => {
         fetch(`https://api.openweathermap.org/data/2.5/weather?q=${cityName}&appid=51508559a54a70928ab3aed23d3a0b63`, {
             mode: "cors",
         })
-        .then(response => response.json())
-        .then(json => {
-            console.log(json)
+            .then(response => response.json())
+            .then(json => {
+                console.log(json)
+                const errorMsg = weatherForm.querySelector(".error-msg")
 
-            const latitude = json.coord.lat
-            const longitude = json.coord.lon
+                if (json.cod === "404") {
+                    errorMsg.textContent = `${cityName} not found`
+                    errorMsg.classList.add("active")
+                } 
+                else {
+                    errorMsg.classList.remove("active")
+                    const latitude = json.coord.lat
+                    const longitude = json.coord.lon
 
-            getWeatherInfo(latitude, longitude)
-
-        })
-
+                    getWeatherInfo(latitude, longitude)
+                }
+            })
     }
 })
 
 function getWeatherInfo(latitude, longitude) {
-    fetch(`https://api.openweathermap.org/data/3.0/onecall?lat=${latitude}&lon=${longitude}&appid=51508559a54a70928ab3aed23d3a0b63`,
-    {
-        mode: "cors"
-    })
-    .then(response => response.json())
-    .then(json => {
-        console.log(json)
-    })
+    fetch(
+        `https://api.openweathermap.org/data/3.0/onecall?lat=${latitude}&lon=${longitude}&appid=51508559a54a70928ab3aed23d3a0b63`,
+        {
+            mode: "cors",
+        }
+    )
+        .then(response => response.json())
+        .then(json => {
+            console.log(json)
+        })
 }
