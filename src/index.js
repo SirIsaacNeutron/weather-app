@@ -17,7 +17,7 @@ weatherInput.addEventListener("keydown", e => {
         })
             .then(response => response.json())
             .then(json => {
-                console.log(json)
+                // console.log(json)
                 const errorMsg = weatherForm.querySelector(".error-msg")
 
                 if (json.cod === "404") {
@@ -37,7 +37,7 @@ weatherInput.addEventListener("keydown", e => {
 
 function getWeatherInfo(latitude, longitude) {
     fetch(
-        `https://api.openweathermap.org/data/3.0/onecall?lat=${latitude}&lon=${longitude}&appid=51508559a54a70928ab3aed23d3a0b63`,
+        `https://api.openweathermap.org/data/3.0/onecall?lat=${latitude}&lon=${longitude}&appid=51508559a54a70928ab3aed23d3a0b63&units=imperial`,
         {
             mode: "cors",
         }
@@ -45,5 +45,35 @@ function getWeatherInfo(latitude, longitude) {
         .then(response => response.json())
         .then(json => {
             console.log(json)
+
+            createWeatherCards(json)
         })
+}
+
+function createWeatherCards(json) {
+    const daily = json.daily
+    const weatherCards = document.querySelector(".weather-cards")
+    weatherCards.replaceChildren()
+
+    daily.forEach(dayInfo => {
+        const dayName = new Date(dayInfo.dt * 1000).toLocaleDateString("us-en", {
+            "weekday": "short"
+        })
+
+        const imgCode = dayInfo.weather[0].icon
+        const imgSrc = `https://openweathermap.org/img/wn/${imgCode}@2x.png`
+
+        weatherCards.innerHTML += `
+            <article class="weather-card">
+                <div class="main-weather">
+                    <h2>${dayName}</h2>
+                    <div>
+                        <p>${dayInfo.temp.day}</p>
+                        <p>${dayInfo.temp.night}</p>
+                    </div>
+                </div>
+                <img src=${imgSrc}>
+            </article>
+        `
+    })
 }
