@@ -55,13 +55,21 @@ function createWeatherCards(json) {
     const weatherCards = document.querySelector(".weather-cards")
     weatherCards.replaceChildren()
 
-    daily.forEach(dayInfo => {
+    daily.forEach((dayInfo, index) => {
         const dayName = new Date(dayInfo.dt * 1000).toLocaleDateString("us-en", {
             "weekday": "short"
         })
 
+        const descriptions = []
+
+        dayInfo.weather.forEach(weatherInfo => {
+            descriptions.push(weatherInfo.description)
+        })
+
         const imgCode = dayInfo.weather[0].icon
         const imgSrc = `https://openweathermap.org/img/wn/${imgCode}@2x.png`
+
+        const descriptionString = descriptions.join("; ")
 
         weatherCards.innerHTML += `
             <article class="weather-card">
@@ -71,6 +79,7 @@ function createWeatherCards(json) {
                         <p>${dayInfo.temp.day}</p>
                         <p>${dayInfo.temp.night}</p>
                     </div>
+                    <p>${descriptionString}</p>
                 </div>
                 <img src=${imgSrc}>
             </article>
