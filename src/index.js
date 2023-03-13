@@ -23,8 +23,7 @@ weatherInput.addEventListener("keydown", e => {
                 if (json.cod === "404") {
                     errorMsg.textContent = `${cityName} not found`
                     errorMsg.classList.add("active")
-                } 
-                else {
+                } else {
                     errorMsg.classList.remove("active")
                     const latitude = json.coord.lat
                     const longitude = json.coord.lon
@@ -32,6 +31,7 @@ weatherInput.addEventListener("keydown", e => {
                     getWeatherInfo(latitude, longitude)
                 }
             })
+        e.preventDefault()
     }
 })
 
@@ -57,7 +57,7 @@ function createWeatherCards(json) {
 
     daily.forEach((dayInfo, index) => {
         const dayName = new Date(dayInfo.dt * 1000).toLocaleDateString("us-en", {
-            "weekday": "short"
+            weekday: "short",
         })
 
         const descriptions = []
