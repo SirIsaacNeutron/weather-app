@@ -61,7 +61,7 @@ function createSkeletonWeatherCards() {
     weatherCards.replaceChildren()
     const template = document.querySelector("template")
 
-    for (let i = 0; i < 7; ++i) {
+    for (let i = 0; i < 8; ++i) {
         const skeletonContent = template.content.cloneNode(true)
         weatherCards.appendChild(skeletonContent)
     }
