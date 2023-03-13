@@ -76,8 +76,8 @@ function createWeatherCards(json) {
                 <div class="main-weather">
                     <h2>${dayName}</h2>
                     <div>
-                        <p>H: ${dayInfo.temp.max}&deg;</p>
-                        <p>L: ${dayInfo.temp.min}&deg;</p>
+                        <p>H: ${Math.round(dayInfo.temp.max)}&deg;</p>
+                        <p>L: ${Math.round(dayInfo.temp.min)}&deg;</p>
                     </div>
                     <p>${descriptionString}</p>
                 </div>
