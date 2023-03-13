@@ -12,6 +12,8 @@ weatherInput.addEventListener("keydown", e => {
     if (e.key === "Enter") {
         const cityName = weatherForm.querySelector("input").value
 
+        createSkeletonWeatherCards()
+
         fetch(`https://api.openweathermap.org/data/2.5/weather?q=${cityName}&appid=51508559a54a70928ab3aed23d3a0b63`, {
             mode: "cors",
         })
@@ -23,6 +25,10 @@ weatherInput.addEventListener("keydown", e => {
                 if (json.cod === "404") {
                     errorMsg.textContent = `${cityName} not found`
                     errorMsg.classList.add("active")
+
+                    // Remove skeleton loading
+                    const weatherCards = document.querySelector('.weather-cards')
+                    weatherCards.replaceChildren()
                 } else {
                     errorMsg.classList.remove("active")
                     const latitude = json.coord.lat
@@ -48,6 +54,17 @@ function getWeatherInfo(latitude, longitude) {
 
             createWeatherCards(json)
         })
+}
+
+function createSkeletonWeatherCards() { 
+    const weatherCards = document.querySelector(".weather-cards")
+    weatherCards.replaceChildren()
+    const template = document.querySelector("template")
+
+    for (let i = 0; i < 7; ++i) {
+        const skeletonContent = template.content.cloneNode(true)
+        weatherCards.appendChild(skeletonContent)
+    }
 }
 
 function createWeatherCards(json) {

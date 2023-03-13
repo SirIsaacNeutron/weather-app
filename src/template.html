@@ -7,6 +7,20 @@
         <title><%= htmlWebpackPlugin.options.title %></title>
     </head>
     <body>
+        <template>
+            <article class="weather-card">
+                <div class="main-weather">
+                    <div class="skeleton skeleton-text"></div>
+                    <div>
+                        <div class="skeleton skeleton-text"></div>
+                        <div class="skeleton skeleton-text"></div>
+                    </div>
+                </div>
+                <div class="skeleton" style="margin-left: auto; height: 100px; width: 100px;"></div>
+            </article>
+        </template>
+
+        
         <h1>Weather</h1>
         <main>
             <form method="POST" class="weather-form">
