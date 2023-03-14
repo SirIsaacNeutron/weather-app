@@ -52,8 +52,61 @@ function getWeatherInfo(latitude, longitude) {
         .then(json => {
             console.log(json)
 
+            createWeatherStats(json)
             createWeatherCards(json)
         })
+}
+
+function createWeatherStats(json) {
+    const stats = document.querySelector(".stats-grid")
+    
+    // Clear old stats
+    for (const childDiv of stats.children) {
+        const statInfo = childDiv.querySelector("p.stat")
+        statInfo.textContent = ""
+    }
+
+    const sunriseStat = stats.querySelector(".sunrise p.stat")
+
+    const timeString = new Date(json.current.sunrise * 1000).toLocaleTimeString("en-US")
+    sunriseStat.textContent = timeString
+
+    const sunsetStat = stats.querySelector(".sunset p.stat")
+    sunsetStat.textContent = new Date(json.current.sunset * 1000).toLocaleTimeString("en-US")
+
+    const rainStat = stats.querySelector(".rain-chance p.stat")
+    rainStat.textContent = `${json.daily[0].pop * 100}%`
+
+    const humidityStat = stats.querySelector(".humidity p.stat")
+    humidityStat.textContent = `${json.current.humidity}%`
+
+    const windStat = stats.querySelector(".wind p.stat")
+    windStat.textContent = `${json.current.wind_speed} m/s`
+
+    const feelsLike = stats.querySelector(".feels-like p.stat")
+    feelsLike.textContent = `${Math.round(json.current.feels_like)}°`
+
+    const precipitationStat = stats.querySelector(".precipitation p.stat")
+
+    if (json.current.rain) {
+        precipitationStat.textContent = `${json.current.rain["1h"]} mm/h`
+    }
+    else if (json.current.snow) {
+        precipitationStat.textContent = `${json.current.snow["1h"]} mm/h`
+    }
+    else {
+        precipitationStat.textContent = "0 mm/h"
+    }
+
+    const pressureStat = stats.querySelector(".pressure p.stat")
+    pressureStat.textContent = `${json.current.pressure} hPa`
+
+    const visibilityStat = stats.querySelector(".visibility p.stat")
+    const kmVisibility = json.current.visibility / 1000
+    visibilityStat.textContent = `${kmVisibility} km`
+
+    const uvStat = stats.querySelector(".uv-index p.stat")
+    uvStat.textContent = `${json.current.uvi}`
 }
 
 function createSkeletonWeatherCards() { 
@@ -86,7 +139,9 @@ function createWeatherCards(json) {
         const imgCode = dayInfo.weather[0].icon
         const imgSrc = `https://openweathermap.org/img/wn/${imgCode}@2x.png`
 
-        const descriptionString = descriptions.join("; ")
+        let descriptionString = descriptions.join("; ")
+        // Capitalize first letter
+        descriptionString = descriptionString.charAt(0).toUpperCase() + descriptionString.slice(1)
 
         weatherCards.innerHTML += `
             <article class="weather-card">
@@ -96,6 +151,7 @@ function createWeatherCards(json) {
                         <p>H: ${Math.round(dayInfo.temp.max)}&deg;</p>
                         <p>L: ${Math.round(dayInfo.temp.min)}&deg;</p>
                     </div>
+                    <p>Chance of precipitation: ${dayInfo.pop * 100}%</p>
                     <p>${descriptionString}</p>
                 </div>
                 <img src=${imgSrc}>
