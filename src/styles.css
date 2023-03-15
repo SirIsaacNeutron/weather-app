@@ -196,6 +196,25 @@ span.current-unit {
     border-radius: 5px;
 }
 
+footer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+
+    padding-bottom: 10px;
+}
+
+.fa-github {
+    font-size: 24px;
+    color: black; /* prevent icon from going red on click */
+    transition: transform 0.3s ease-in-out;
+}
+
+.fa-github:hover {
+    transform: rotate(360deg) scale(1.2);
+}
+
 @media screen and (max-width: 500px) {
     .stats-grid {
         grid-template-columns: repeat(3, minmax(100px, 1fr));
