@@ -4,10 +4,10 @@ const weatherInput = document.querySelector(".weather-form input")
 
 const weatherForm = document.querySelector(".weather-form")
 
-const tempButton = weatherForm.querySelector(".temp-units")
+const unitsButton = weatherForm.querySelector(".temp-units")
 
-tempButton.addEventListener("click", () => {
-    const buttonSpans = tempButton.querySelectorAll("span")
+unitsButton.addEventListener("click", () => {
+    const buttonSpans = unitsButton.querySelectorAll("span")
 
     let currentUnit
     // If the first span (Celsius) is the current unit, switch to Fahrenheit
@@ -38,12 +38,12 @@ tempButton.addEventListener("click", () => {
     })
 })
 
-function resetTempButton() {
-    const buttonSpans = tempButton.querySelectorAll("span")
+function resetUnitsButton() {
+    const buttonSpans = unitsButton.querySelectorAll("span")
     buttonSpans[0].classList.remove("current-unit")
     buttonSpans[1].classList.add("current-unit")
 
-    tempButton.classList.add("hidden")
+    unitsButton.classList.add("hidden")
 }
 
 function fahrenheitToCelsius(degreesFahrenheit) {
@@ -62,7 +62,7 @@ weatherForm.addEventListener("submit", e => {
 
 weatherInput.addEventListener("keydown", e => {
     if (e.key === "Enter") {
-        resetTempButton()
+        resetUnitsButton()
 
         const errorMsg = weatherForm.querySelector(".error-msg")
 
@@ -83,7 +83,7 @@ weatherInput.addEventListener("keydown", e => {
                     errorMsg.textContent = `${cityName} not found`
                     errorMsg.classList.add("active")
 
-                    tempButton.classList.add("hidden")
+                    unitsButton.classList.add("hidden")
 
                     // Remove skeleton loading
                     const weatherCards = document.querySelector('.weather-cards')
@@ -119,7 +119,7 @@ function getWeatherInfo(latitude, longitude) {
             createWeatherStats(json)
             createWeatherCards(json)
 
-            tempButton.classList.remove("hidden")
+            unitsButton.classList.remove("hidden")
         })
 }
 
