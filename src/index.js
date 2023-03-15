@@ -80,7 +80,8 @@ function createHourlyCards(json) {
         const imgCode = hourlyInfo.weather[0].icon
         const imgSrc = `https://openweathermap.org/img/wn/${imgCode}@2x.png`
 
-        const descriptionString = hourlyInfo.weather[0].description
+        let descriptionString = hourlyInfo.weather[0].description
+        descriptionString = descriptionString.charAt(0).toUpperCase() + descriptionString.slice(1)
 
         hourlyDisplay.innerHTML += `
         <article class="hourly-card">
@@ -196,7 +197,6 @@ function createWeatherCards(json) {
         const imgSrc = `https://openweathermap.org/img/wn/${imgCode}@2x.png`
 
         let descriptionString = descriptions.join("; ")
-        // Capitalize first letter
         descriptionString = descriptionString.charAt(0).toUpperCase() + descriptionString.slice(1)
 
         weatherCards.innerHTML += `
