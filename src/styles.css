@@ -33,6 +33,10 @@ main {
     margin-bottom: 15px;
 }
 
+h3 {
+    font-weight: 400;
+}
+
 .weather-form {
     /* box-shadow: 0px 0px 5px 0px rgb(0, 0, 0, .2); */
     border-radius: 5px;
@@ -61,6 +65,20 @@ main {
 
 .error-msg.active {
     display: block;
+}
+
+.temp-units {
+    width: 100%;
+
+    padding: 10px;
+
+    font-size: 1rem;
+
+    margin-top: 10px;
+}
+
+span.current-unit {
+    font-weight: bold;
 }
 
 .hourly-weather {

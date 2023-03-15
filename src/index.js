@@ -4,12 +4,66 @@ const weatherInput = document.querySelector(".weather-form input")
 
 const weatherForm = document.querySelector(".weather-form")
 
+const tempButton = weatherForm.querySelector(".temp-units")
+
+tempButton.addEventListener("click", () => {
+    const buttonSpans = tempButton.querySelectorAll("span")
+
+    let currentUnit
+    // If the first span (Celsius) is the current unit, switch to Fahrenheit
+    if (buttonSpans[0].classList.contains("current-unit")) {
+        buttonSpans[0].classList.remove("current-unit")
+        buttonSpans[1].classList.add("current-unit")
+
+        currentUnit = "F"
+    }
+    else {
+        buttonSpans[0].classList.add("current-unit")
+        buttonSpans[1].classList.remove("current-unit")
+
+        currentUnit = "C"
+    }
+
+    const allTemperatures = document.querySelectorAll(".temp")
+
+    allTemperatures.forEach(p => {
+        const degreeString = p.textContent.split("°")[0]
+        const degrees = parseInt(degreeString)
+        if (currentUnit === "F") {
+            p.textContent = `${celsiusToFahrenheit(degrees)}°`
+        }
+        else {
+            p.textContent = `${fahrenheitToCelsius(degrees)}°`
+        }
+    })
+})
+
+function resetTempButton() {
+    const buttonSpans = tempButton.querySelectorAll("span")
+    buttonSpans[0].classList.remove("current-unit")
+    buttonSpans[1].classList.add("current-unit")
+
+    tempButton.classList.add("hidden")
+}
+
+function fahrenheitToCelsius(degreesFahrenheit) {
+    const celsius = ((degreesFahrenheit - 32) * 5 ) / 9
+    return Math.round(celsius)
+}
+
+function celsiusToFahrenheit(degreesCelsius) {
+    const fahrenheit = (degreesCelsius * (9 / 5)) + 32
+    return Math.round(fahrenheit)
+}
+
 weatherForm.addEventListener("submit", e => {
     e.preventDefault()
 })
 
 weatherInput.addEventListener("keydown", e => {
     if (e.key === "Enter") {
+        resetTempButton()
+
         const errorMsg = weatherForm.querySelector(".error-msg")
 
         errorMsg.classList.remove("active")
@@ -28,6 +82,8 @@ weatherInput.addEventListener("keydown", e => {
                 if (json.cod === "404") {
                     errorMsg.textContent = `${cityName} not found`
                     errorMsg.classList.add("active")
+
+                    tempButton.classList.add("hidden")
 
                     // Remove skeleton loading
                     const weatherCards = document.querySelector('.weather-cards')
@@ -62,6 +118,8 @@ function getWeatherInfo(latitude, longitude) {
             createHourlyCards(json)
             createWeatherStats(json)
             createWeatherCards(json)
+
+            tempButton.classList.remove("hidden")
         })
 }
 
@@ -204,8 +262,8 @@ function createWeatherCards(json) {
                 <div class="main-weather">
                     <h2>${dayName}</h2>
                     <div>
-                        <p class="temp">H: ${Math.round(dayInfo.temp.max)}&deg;</p>
-                        <p class="temp">L: ${Math.round(dayInfo.temp.min)}&deg;</p>
+                        <p>H: <span class="temp">${Math.round(dayInfo.temp.max)}&deg;</span></p>
+                        <p>L: <span class="temp">${Math.round(dayInfo.temp.min)}&deg;</span></p>
                     </div>
                     <p>Chance of precipitation: <span class="pop">${dayInfo.pop * 100}%</span></p>
                     <p>${descriptionString}</p>

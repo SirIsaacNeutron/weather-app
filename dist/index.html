@@ -6,10 +6,10 @@
 
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=Nixie+One&family=Quicksand:wght@300;400&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Nixie+One&family=Quicksand:wght@300;400;500&display=swap" rel="stylesheet">    
 
         <title>Weather</title>
-    <script defer src="main0a1a989d4378c4c14e73.js"></script></head>
+    <script defer src="mainb92036b1fbba2133154b.js"></script></head>
     <body>
         <template>
             <article class="weather-card">
@@ -24,7 +24,6 @@
             </article>
         </template>
 
-        
         <h1>Weather</h1>
         <main>
             <form method="POST" class="weather-form">
@@ -32,6 +31,7 @@
                     <input type="text" id="city" required placeholder="City name...">
                     <p class="error-msg"></p>
                 </div>
+                <button type="button" class="temp-units hidden"><span>&deg;C</span> / <span class="current-unit">&deg;F</span></button>
             </form>
         </main>
 
