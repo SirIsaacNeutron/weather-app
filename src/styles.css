@@ -24,7 +24,7 @@ body h1 {
 }
 
 main {
-    margin-bottom: 10px;
+    margin-bottom: 15px;
 }
 
 .weather-form {
@@ -62,7 +62,7 @@ main {
     gap: 20px;
 
     overflow: auto;
-    min-height: 200px;
+    min-height: 210px;
 
     width: 100%;
 
