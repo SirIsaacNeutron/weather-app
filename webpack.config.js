@@ -15,6 +15,7 @@ module.exports = {
             title: "Weather",
             filename: "index.html",
             template: "src/template.html",
+            favicon: "src/storm.png"
         }),
     ],
     module: {
