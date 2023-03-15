@@ -146,12 +146,17 @@ function createHourlyCards(json) {
             <h3>${hourString}</h3>
             <img src=${imgSrc}>
 
-            <p class="pop">${hourlyInfo.pop * 100}%</p>
+            <p class="pop">${getPOPString(hourlyInfo.pop)}</p>
             <p class="temp">${Math.round(hourlyInfo.feels_like)}&deg;</p>
             <p>${descriptionString}</p>
         </article>
         `
     }
+}
+
+function getPOPString(pop) {
+    const fixedPOP = (pop * 100).toFixed(0)
+    return `${fixedPOP}%`
 }
 
 function createSkeletonHourlyCards() {
@@ -190,7 +195,7 @@ function createWeatherStats(json) {
     sunsetStat.textContent = new Date(json.current.sunset * 1000).toLocaleTimeString("en-US")
 
     const rainStat = stats.querySelector(".rain-chance p.stat")
-    rainStat.textContent = `${json.daily[0].pop * 100}%`
+    rainStat.textContent = `${getPOPString(json.daily[0].pop)}`
 
     const humidityStat = stats.querySelector(".humidity p.stat")
     humidityStat.textContent = `${json.current.humidity}%`
@@ -265,7 +270,7 @@ function createWeatherCards(json) {
                         <p>H: <span class="temp">${Math.round(dayInfo.temp.max)}&deg;</span></p>
                         <p>L: <span class="temp">${Math.round(dayInfo.temp.min)}&deg;</span></p>
                     </div>
-                    <p>Chance of precipitation: <span class="pop">${dayInfo.pop * 100}%</span></p>
+                    <p>Chance of precipitation: <span class="pop">${getPOPString(dayInfo.pop)}</span></p>
                     <p>${descriptionString}</p>
                 </div>
                 <img src=${imgSrc}>
