@@ -184,7 +184,7 @@ function createWeatherCards(json) {
 
     daily.forEach((dayInfo, index) => {
         const dayName = new Date(dayInfo.dt * 1000).toLocaleDateString("us-en", {
-            weekday: "short",
+            weekday: "long"
         })
 
         const descriptions = []

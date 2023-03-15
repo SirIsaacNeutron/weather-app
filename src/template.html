@@ -4,6 +4,10 @@
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
 
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Nixie+One&family=Quicksand:wght@300;400&display=swap" rel="stylesheet">
+
         <title><%= htmlWebpackPlugin.options.title %></title>
     </head>
     <body>
@@ -25,7 +29,7 @@
         <main>
             <form method="POST" class="weather-form">
                 <div>
-                    <input type="text" id="city" required placeholder="Type a city name here">
+                    <input type="text" id="city" required placeholder="City name...">
                     <p class="error-msg"></p>
                 </div>
             </form>
