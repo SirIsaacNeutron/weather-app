@@ -10,8 +10,12 @@ weatherForm.addEventListener("submit", e => {
 
 weatherInput.addEventListener("keydown", e => {
     if (e.key === "Enter") {
+        const errorMsg = weatherForm.querySelector(".error-msg")
+
+        errorMsg.classList.remove("active")
         const cityName = weatherForm.querySelector("input").value
 
+        createSkeletonHourlyCards()
         createSkeletonWeatherCards()
 
         fetch(`https://api.openweathermap.org/data/2.5/weather?q=${cityName}&appid=51508559a54a70928ab3aed23d3a0b63`, {
@@ -20,7 +24,6 @@ weatherInput.addEventListener("keydown", e => {
             .then(response => response.json())
             .then(json => {
                 // console.log(json)
-                const errorMsg = weatherForm.querySelector(".error-msg")
 
                 if (json.cod === "404") {
                     errorMsg.textContent = `${cityName} not found`
@@ -29,6 +32,10 @@ weatherInput.addEventListener("keydown", e => {
                     // Remove skeleton loading
                     const weatherCards = document.querySelector('.weather-cards')
                     weatherCards.replaceChildren()
+
+                    const hourlyCards = document.querySelector(".hourly-weather")
+                    hourlyCards.replaceChildren()
+                    hourlyCards.classList.add("hidden")
                 } else {
                     errorMsg.classList.remove("active")
                     const latitude = json.coord.lat
@@ -52,9 +59,58 @@ function getWeatherInfo(latitude, longitude) {
         .then(json => {
             console.log(json)
 
+            createHourlyCards(json)
             createWeatherStats(json)
             createWeatherCards(json)
         })
+}
+
+function createHourlyCards(json) {
+    const hourlyDisplay = document.querySelector(".hourly-weather")
+    hourlyDisplay.replaceChildren()
+
+    for (let i = 0; i < 24; ++i) {
+        const hourlyInfo = json.hourly[i]
+
+        let hourString = new Date(hourlyInfo.dt * 1000).toLocaleTimeString("us-EN")
+        let amOrPM = hourString.split(" ")[1]
+        let hourTime = hourString.split(":")[0]
+        hourString = `${hourTime} ${amOrPM}`
+
+        const imgCode = hourlyInfo.weather[0].icon
+        const imgSrc = `https://openweathermap.org/img/wn/${imgCode}@2x.png`
+
+        const descriptionString = hourlyInfo.weather[0].description
+
+        hourlyDisplay.innerHTML += `
+        <article class="hourly-card">
+            <h3>${hourString}</h3>
+            <img src=${imgSrc}>
+
+            <p class="pop">${hourlyInfo.pop * 100}%</p>
+            <p class="temp">${Math.round(hourlyInfo.feels_like)}&deg;</p>
+            <p>${descriptionString}</p>
+        </article>
+        `
+    }
+}
+
+function createSkeletonHourlyCards() {
+    const hourlyCards = document.querySelector(".hourly-weather")
+    hourlyCards.replaceChildren()
+    hourlyCards.classList.remove("hidden")
+
+    for (let i = 0; i < 10; ++i) {
+        hourlyCards.innerHTML += `
+        <article class="hourly-card">
+            <h3 class="skeleton skeleton-text"></h3>
+            <img class="skeleton" style="height: 100px; width: 100px; margin-bottom: 20px;">
+
+            <p class="skeleton skeleton-text"></p>
+            <p class="skeleton skeleton-text"></p>
+        </article>
+        `
+    }
 }
 
 function createWeatherStats(json) {
@@ -148,10 +204,10 @@ function createWeatherCards(json) {
                 <div class="main-weather">
                     <h2>${dayName}</h2>
                     <div>
-                        <p>H: ${Math.round(dayInfo.temp.max)}&deg;</p>
-                        <p>L: ${Math.round(dayInfo.temp.min)}&deg;</p>
+                        <p class="temp">H: ${Math.round(dayInfo.temp.max)}&deg;</p>
+                        <p class="temp">L: ${Math.round(dayInfo.temp.min)}&deg;</p>
                     </div>
-                    <p>Chance of precipitation: ${dayInfo.pop * 100}%</p>
+                    <p>Chance of precipitation: <span class="pop">${dayInfo.pop * 100}%</span></p>
                     <p>${descriptionString}</p>
                 </div>
                 <img src=${imgSrc}>

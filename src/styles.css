@@ -53,6 +53,38 @@ body h1 {
     display: block;
 }
 
+.hourly-weather {
+    display: flex;
+    gap: 20px;
+
+    overflow: auto;
+    min-height: 200px;
+
+    width: 100%;
+
+    margin-bottom: 10px;
+}
+
+.hidden {
+    display: none;
+}
+
+.hourly-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+
+    width: 120px;
+
+    flex: 1;
+}
+
+.pop {
+    /* color: rgb(78, 181, 255); */
+    color: #026cde;
+}
+
 .weather-stats {
     min-width: 100%;
     background-color: hsl(0, 0%, 79%);
